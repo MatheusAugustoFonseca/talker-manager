@@ -32,7 +32,9 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', async (_req, res) => {
+  // const crypto = require('crypto');
   const token = crypto.randomBytes(8).toString('hex');
+  // console.log(token);
   res.status(HTTP_OK_STATUS).json({ token });
 });
 
