@@ -25,10 +25,12 @@ const validatePassword = (password, res) => {
 
 const validateLogin = async (req, res, next) => {
   const { email, password } = req.body;
-  const ve = validateEmail(email, res);
-  if (ve !== null) return ve;
-  const vp = validatePassword(password, res);
-  if (vp !== null) return vp;
+  // const ve = validateEmail(email, res);
+  validateEmail(email, res);
+  // if (ve !== null) return ve;
+  // const vp = validatePassword(password, res);
+  // if (vp !== null) return vp;
+  validatePassword(password, res);
   next();
 };
 
