@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const { readFile } = require('./utils/fsFile');
+const { validateLogin } = require('./middlewares/validateLogin');
 
 const app = express();
 app.use(bodyParser.json());
@@ -31,7 +32,7 @@ app.get('/talker/:id', async (req, res) => {
   }
 });
 
-app.post('/login', async (_req, res) => {
+app.post('/login', validateLogin, async (_req, res) => {
   // const crypto = require('crypto');
   const token = crypto.randomBytes(8).toString('hex');
   // console.log(token);
