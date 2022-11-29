@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { readFile } = require('./utils/fsFile');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,7 +13,12 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.listen(PORT, () => {
-  console.log('Online');
+app.get('/talker', async (_req, res) => {
+  res.status(HTTP_OK_STATUS).json(await readFile());
 });
-// iniciando o projeto
+
+app.listen(PORT, () => {
+  console.log('Estou online');
+});
+
+module.exports = app;
