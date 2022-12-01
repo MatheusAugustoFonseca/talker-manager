@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { readFile, addNewTalker } = require('./utils/fsFile');
+const { readFile, addNewTalker, editTalker } = require('./utils/fsFile');
 const { validateLogin } = require('./middlewares/validateLogin');
 // const { validateTalkerAdd } = require('./middlewares/validateTalkerAdd');
 const { 
@@ -60,6 +60,24 @@ app.post('/talker',
   const addedTalker = req.body;
   const id = await addNewTalker(addedTalker);
   res.status(HTTP_CREATED_STATUS).json(id);
+});
+
+app.put('/talker/:id',
+  tokenValidate,
+  nameValidate,
+  ageValidate,
+  talkValidate,
+  watchedAtValidate,
+  rateValidate,
+  async (req, res) => {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const talker = await editTalker(Number(id), {
+      name,
+      age,
+      talk,
+    });
+  res.status(HTTP_OK_STATUS).json(talker);
 });
 
 app.listen(PORT, () => {

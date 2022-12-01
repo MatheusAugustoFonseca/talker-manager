@@ -24,4 +24,15 @@ const addNewTalker = async (add) => {
   return newTalker;
 };
 
-module.exports = { readFile, addNewTalker };
+const editTalker = async (id, talker) => {
+  const talkers = await readFile();
+  const index = talkers.findIndex((speaker) => speaker.id === id);
+  talkers[index] = {
+    id,
+    ...talker,
+  };
+  await writeFile(dirPath, JSON.stringify(talkers, null, 2));
+  return talkers[index]; 
+};
+
+module.exports = { readFile, addNewTalker, editTalker };
