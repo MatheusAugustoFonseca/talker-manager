@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { readFile, addNewTalker, editTalker } = require('./utils/fsFile');
+const { readFile, addNewTalker, editTalker, deleteTalker } = require('./utils/fsFile');
 const { validateLogin } = require('./middlewares/validateLogin');
 // const { validateTalkerAdd } = require('./middlewares/validateTalkerAdd');
 const { 
@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
+const HTTP_NO_CONTENT = 204;
 const HTTP_NOT_FOUND_STATUS = 404;
 // const HTTP_UNAUTHORIZED = 401;
 const PORT = '3000';
@@ -78,6 +79,12 @@ app.put('/talker/:id',
       talk,
     });
   res.status(HTTP_OK_STATUS).json(talker);
+});
+
+app.delete('/talker/:id', tokenValidate, async (req, res) => {
+  const { id } = req.params;
+  await deleteTalker(id);
+  res.status(HTTP_NO_CONTENT).end();
 });
 
 app.listen(PORT, () => {

@@ -35,4 +35,13 @@ const editTalker = async (id, talker) => {
   return talkers[index]; 
 };
 
-module.exports = { readFile, addNewTalker, editTalker };
+const deleteTalker = async (_req, id) => {
+  const talkers = await readFile();
+  // const idParam = req.params.id;
+  const index = talkers.findIndex((speaker) => speaker.id === id);
+  talkers.splice(index, 1);
+  await writeFile(dirPath, JSON.stringify(talkers, null, 2));
+  return talkers;
+};
+
+module.exports = { readFile, addNewTalker, editTalker, deleteTalker };
