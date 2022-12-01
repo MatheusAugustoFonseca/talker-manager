@@ -1,7 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { readFile, addNewTalker, editTalker, deleteTalker } = require('./utils/fsFile');
+const {
+  readFile,
+  addNewTalker,
+  editTalker,
+  deleteTalker,
+  searchTalkerByName,
+  } = require('./utils/fsFile');
 const { validateLogin } = require('./middlewares/validateLogin');
 // const { validateTalkerAdd } = require('./middlewares/validateTalkerAdd');
 const { 
@@ -22,6 +28,15 @@ const HTTP_NO_CONTENT = 204;
 const HTTP_NOT_FOUND_STATUS = 404;
 // const HTTP_UNAUTHORIZED = 401;
 const PORT = '3000';
+
+app.get('/talker/search', tokenValidate, async (req, res) => {
+  const { q } = req.query;
+  if (q === undefined) {
+    return res.status(HTTP_OK_STATUS).json(await readFile());
+  }
+  const searching = await searchTalkerByName(q);
+  return res.status(HTTP_OK_STATUS).json(searching);
+});
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

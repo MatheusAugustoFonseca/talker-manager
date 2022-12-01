@@ -44,4 +44,10 @@ const deleteTalker = async (_req, id) => {
   return talkers;
 };
 
-module.exports = { readFile, addNewTalker, editTalker, deleteTalker };
+const searchTalkerByName = async (nameInputed) => {
+  const talkers = await readFile();
+  const search = talkers.filter((talker) => talker.name.includes(nameInputed));
+  return search;
+};
+
+module.exports = { readFile, addNewTalker, editTalker, deleteTalker, searchTalkerByName };
